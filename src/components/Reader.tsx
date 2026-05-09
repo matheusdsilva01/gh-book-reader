@@ -9,9 +9,14 @@ interface ReaderProps {
   fileName: string;
   owner: string;
   repo: string;
+  branch: string;
 }
 
-export function Reader({ content, fileName, owner, repo }: ReaderProps) {
+export function Reader({ content, fileName, owner, repo, branch }: ReaderProps) {
+  const relativeDirPath = fileName.includes('/') 
+    ? fileName.substring(0, fileName.lastIndexOf('/')) 
+    : ''
+
   return (
     <div className="flex-1 overflow-y-auto bg-background p-6 py-12 md:p-24 selection:bg-accent/10 selection:text-accent">
       <div className="mx-auto max-w-2xl">
@@ -28,6 +33,27 @@ export function Reader({ content, fileName, owner, repo }: ReaderProps) {
             remarkPlugins={[remarkGfm, remarkGemoji]}
             rehypePlugins={[rehypeRaw]}
             components={{
+              img: ({ src, alt, ...props }) => {
+                if (typeof src === "string" && !src.startsWith('http')) {
+                  const resolvedPath = relativeDirPath ? `${relativeDirPath}/${src}` : src
+                  // Handle potential leading slashes or dots
+                  const cleanPath = resolvedPath.replace(/^\.?\//, '')
+                  const githubRawUrl = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${cleanPath}`
+                  return (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={githubRawUrl}
+                      alt={alt || ""}
+                      className="rounded-lg shadow-sm"
+                      {...props}
+                    />
+                  )
+                }
+                return (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={src} alt={alt || ""} className="rounded-lg shadow-sm" {...props} />
+                )
+              },
               a: ({ href, children, ...props }) => {
                 const isRelative =
                   href &&
@@ -35,9 +61,11 @@ export function Reader({ content, fileName, owner, repo }: ReaderProps) {
                   !href.startsWith("mailto") &&
                   !href.startsWith("#")
                 if (isRelative) {
+                  const resolvedPath = relativeDirPath ? `${relativeDirPath}/${href}` : href
+                  const cleanPath = resolvedPath.replace(/^\.?\//, '')
                   return (
                     <Link
-                      href={`/reader/${owner}/${repo}?file=${href}`}
+                      href={`/reader/${owner}/${repo}?file=${cleanPath}`}
                       {...props}
                     >
                       {children}
