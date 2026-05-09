@@ -8,7 +8,7 @@ export async function fetchRepoInfo(
 ): Promise<GitHubRepo> {
   const response = await fetch(`${GITHUB_API_BASE}/repos/${owner}/${repo}`, {
     next: {
-      revalidate: 300, // Revalidate every 5 minutes
+      revalidate: 900, // Revalidate every 15 minutes
     }
   })
   if (!response.ok) throw new Error("Failed to fetch repo info", {
@@ -26,7 +26,7 @@ export async function fetchTree(
     `${GITHUB_API_BASE}/repos/${owner}/${repo}/git/trees/${sha}?recursive=1`,
     {
       next: {
-        revalidate: 300, // Revalidate every 5 minutes
+        revalidate: 900, // Revalidate every 15 minutes
       }
     }
   )
@@ -45,7 +45,10 @@ export async function fetchBlobContent(
     `${GITHUB_API_BASE}/repos/${owner}/${repo}/git/blobs/${sha}`,
     {
       next: {
-        revalidate: 300, // Revalidate every 5 minutes
+        revalidate: 900, // Revalidate every 15 minutes
+      },
+      headers: {
+        "Accept": "application/vnd.github.v3.raw",
       }
     },
   )
