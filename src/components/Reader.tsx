@@ -18,7 +18,7 @@ export function Reader({ content, fileName, owner, repo, branch }: ReaderProps) 
     : ''
 
   return (
-    <div className="flex-1 overflow-y-auto bg-background p-6 py-12 md:p-24 selection:bg-accent/10 selection:text-accent">
+    <div className="flex-1 bg-background p-6 py-12 md:p-24 selection:bg-accent/10 selection:text-accent">
       <div className="mx-auto max-w-2xl">
         <header className="mb-12 md:mb-16 border-b border-sidebar-border/50 pb-8 md:pb-10">
           <div className="mb-4 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-accent/60">

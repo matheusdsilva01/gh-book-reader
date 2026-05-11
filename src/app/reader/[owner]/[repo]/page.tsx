@@ -31,7 +31,7 @@ async function ReaderContent({ owner, repo, filePath }: { owner: string; repo: s
 
   return (
     <ReaderShell tree={tree} selectedSha={selectedSha} repoName={repo}>
-      <main className="flex flex-1 flex-col overflow-hidden relative bg-background">
+      <main className="flex flex-1 flex-col relative bg-background">
         {filePath ? (
           <Reader content={content} fileName={filePath} owner={owner} repo={repo} branch={branch} />
         ) : (

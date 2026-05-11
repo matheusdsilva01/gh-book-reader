@@ -45,7 +45,7 @@ export function Sidebar({ tree, selectedSha, isOpen, onClose }: SidebarProps) {
       )}
       
       <div className={cn(
-        "fixed inset-y-0 left-0 z-50 flex w-72 flex-col border-r border-sidebar-border bg-sidebar-bg font-sans transition-transform duration-300 ease-in-out md:static md:translate-x-0",
+        "fixed inset-y-0 left-0 z-50 flex w-72 flex-col border-r border-sidebar-border bg-sidebar-bg font-sans transition-transform duration-300 ease-in-out md:sticky md:top-0 md:h-screen md:translate-x-0",
         isOpen ? "translate-x-0" : "-translate-x-full"
       )}>
         <div className="flex items-center justify-between p-8 border-b border-sidebar-border/60">

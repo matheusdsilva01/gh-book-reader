@@ -80,4 +80,5 @@ body {
   color: #f8f8f2;
   border-radius: 8px;
   padding: 1.5rem;
+  overflow-x: auto;
 }

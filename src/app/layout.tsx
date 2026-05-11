@@ -19,7 +19,7 @@ const crimsonPro = Crimson_Pro({
 
 export const metadata: Metadata = {
   title: "GitHub Book Reader",
-  description: "Um simples leitor de livros baseado em repositórios do GitHub, construído com Next.js 13 e TypeScript.",
+  description: "Um simples leitor de livros baseado em repositórios do GitHub, construído com Next.js e TypeScript.",
 }
 
 export default function RootLayout({
