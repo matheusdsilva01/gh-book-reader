@@ -9,9 +9,10 @@ interface ReaderShellProps {
   children: React.ReactNode;
   tree: GitHubTreeItem[];
   selectedSha?: string;
+  repoName: string;
 }
 
-export function ReaderShell({ children, tree, selectedSha }: ReaderShellProps) {
+export function ReaderShell({ children, tree, selectedSha, repoName }: ReaderShellProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
   return (
@@ -34,7 +35,7 @@ export function ReaderShell({ children, tree, selectedSha }: ReaderShellProps) {
             <Menu size={20} />
           </button>
           <span className="ml-2 text-xs font-bold uppercase tracking-[0.2em] text-zinc-400">
-            Arquivos
+            {repoName}
           </span>
         </header>
 

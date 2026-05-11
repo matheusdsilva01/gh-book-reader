@@ -49,7 +49,10 @@ export function Sidebar({ tree, selectedSha, isOpen, onClose }: SidebarProps) {
         isOpen ? "translate-x-0" : "-translate-x-full"
       )}>
         <div className="flex items-center justify-between p-8 border-b border-sidebar-border/60">
+        <div>
           <h2 className="text-xs font-bold text-zinc-400 uppercase tracking-[0.2em]">Arquivos</h2>
+          <span className="text-xs text-zinc-500">Selecione um arquivo para leitura. 📚</span>
+          </div>
           {onClose && (
             <button 
               onClick={onClose}

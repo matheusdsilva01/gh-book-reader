@@ -30,13 +30,13 @@ async function ReaderContent({ owner, repo, filePath }: { owner: string; repo: s
   const { tree, content, selectedSha, branch } = data
 
   return (
-    <ReaderShell tree={tree} selectedSha={selectedSha}>
+    <ReaderShell tree={tree} selectedSha={selectedSha} repoName={repo}>
       <main className="flex flex-1 flex-col overflow-hidden relative bg-background">
         {filePath ? (
           <Reader content={content} fileName={filePath} owner={owner} repo={repo} branch={branch} />
         ) : (
           <div className="flex flex-1 items-center justify-center text-zinc-400 bg-background text-sm font-medium tracking-wide">
-            Selecione um arquivo na árvore de arquivos para começar a leitura. 📚
+            Selecione um arquivo no menu lateral para começar a leitura. 📚📂
           </div>
         )}
       </main>
