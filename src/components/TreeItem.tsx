@@ -1,14 +1,9 @@
 "use client"
 
 import { NestedTreeItem } from "@/lib/tree-utils"
-import { clsx, type ClassValue } from "clsx"
+import { cn } from "@/lib/utils"
 import { ChevronRight, FileText, Folder } from "lucide-react"
 import { useState } from "react"
-import { twMerge } from "tailwind-merge"
-
-function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
-}
 
 interface TreeItemProps {
   item: NestedTreeItem;

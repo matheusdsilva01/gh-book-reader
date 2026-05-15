@@ -3,15 +3,10 @@
 import { useRouter } from "next/navigation"
 import { GitHubTreeItem } from "@/types/github"
 import { ChevronRight } from "lucide-react"
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { cn } from "@/lib/utils"
 import { buildNestedTree } from "@/lib/tree-utils"
 import { TreeItem } from "./TreeItem"
 import { useMemo } from "react"
-
-function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
-}
 
 interface SidebarProps {
   tree: GitHubTreeItem[];
