@@ -1,9 +1,10 @@
 "use client"
 
-import { fetchRepoInfo, fetchTree, fetchFileContentByPath } from "@/lib/github"
 import { ReaderShell } from "./ReaderShell"
 import { useSearchParams } from "next/navigation"
-import useSWR from "swr"
+import { useRepoInfo } from "@/api/github/get-repo-info"
+import { useRepoTree } from "@/api/github/get-tree"
+import { useFileContent } from "@/api/github/get-file-content"
 import dynamic from "next/dynamic"
 import { ReaderSkeleton } from "./Skeletons"
 
@@ -17,28 +18,14 @@ export function ReaderContent({ owner, repo }: { owner: string; repo: string }) 
   const searchParams = useSearchParams()
   const filePath = searchParams.get("file") || undefined
 
-  // Fetch repository details (like default_branch)
-  const { data: repoInfo, error: repoInfoError } = useSWR(
-    owner && repo ? ["repoInfo", owner, repo] : null,
-    () => fetchRepoInfo(owner, repo),
-    { revalidateOnFocus: false, revalidateOnReconnect: false, dedupingInterval: 60 * 1000 * 15 }
-  )
+  // Fetch repository details (like default_branch) using the modular hook
+  const { data: repoInfo, error: repoInfoError } = useRepoInfo(owner, repo)
 
-  // Fetch the full directory tree using "HEAD"
-  const { data: treeData, error: treeError } = useSWR(
-    owner && repo ? ["tree", owner, repo] : null,
-    () => fetchTree(owner, repo, "HEAD"),
-    { revalidateOnFocus: false, revalidateOnReconnect: false, dedupingInterval: 60 * 1000 * 15 }
-  )
+  // Fetch the full directory tree using the modular hook
+  const { data: treeData, error: treeError } = useRepoTree(owner, repo)
 
-  const isContentAvailable = owner && repo && filePath
-  // Fetch the active file's content
-  const { data: content, error: contentError, isValidating: isContentValidating } =
-    useSWR(
-      isContentAvailable ? ["content", owner, repo, filePath] : null,
-      () => fetchFileContentByPath(owner, repo, filePath!),
-      { revalidateOnFocus: false, revalidateOnReconnect: false, dedupingInterval: 60 * 1000 * 15 }
-  )
+  // Fetch the active file's content using the modular hook
+  const { data: content, error: contentError, isValidating: isContentValidating } = useFileContent(owner, repo, filePath)
 
   const isLoadingTree = !treeData && !treeError
   const hasError = repoInfoError || treeError
