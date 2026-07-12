@@ -1,6 +1,4 @@
-"use client"
-
-import useSWR from "swr"
+import { useQuery } from "@tanstack/react-query"
 import { GitHubRepo } from "@/types/github"
 
 const GITHUB_API_BASE = "https://api.github.com"
@@ -14,13 +12,10 @@ export async function fetchRepoInfo(owner: string, repo: string): Promise<GitHub
 }
 
 export function useRepoInfo(owner: string, repo: string) {
-  return useSWR(
-    owner && repo ? ["repoInfo", owner, repo] : null,
-    () => fetchRepoInfo(owner, repo),
-    {
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false,
-      dedupingInterval: 15 * 60 * 1000 // 15 minutes cache
-    }
-  )
+  return useQuery({
+    queryKey: ["repoInfo", owner, repo],
+    queryFn: () => fetchRepoInfo(owner, repo),
+    enabled: !!owner && !!repo,
+    staleTime: 60 * 60 * 1000, // 1 hour TTL
+  })
 }

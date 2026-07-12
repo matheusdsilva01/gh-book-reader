@@ -1,6 +1,4 @@
-"use client"
-
-import useSWR from "swr"
+import { useQuery } from "@tanstack/react-query"
 import { GitHubTree } from "@/types/github"
 
 const GITHUB_API_BASE = "https://api.github.com"
@@ -14,13 +12,10 @@ export async function fetchTree(owner: string, repo: string, sha: string): Promi
 }
 
 export function useRepoTree(owner: string, repo: string) {
-  return useSWR(
-    owner && repo ? ["tree", owner, repo] : null,
-    () => fetchTree(owner, repo, "HEAD"),
-    {
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false,
-      dedupingInterval: 15 * 60 * 1000 // 15 minutes cache
-    }
-  )
+  return useQuery({
+    queryKey: ["tree", owner, repo],
+    queryFn: () => fetchTree(owner, repo, "HEAD"),
+    enabled: !!owner && !!repo,
+    staleTime: 30 * 60 * 1000, // 30 minutes TTL
+  })
 }

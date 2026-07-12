@@ -18,16 +18,16 @@ export function ReaderContent({ owner, repo }: { owner: string; repo: string }) 
   const searchParams = useSearchParams()
   const filePath = searchParams.get("file") || undefined
 
-  // Fetch repository details (like default_branch) using the modular hook
-  const { data: repoInfo, error: repoInfoError } = useRepoInfo(owner, repo)
+  // Fetch repository details using the modular hook (TanStack useQuery)
+  const { data: repoInfo, isLoading: isLoadingRepo, error: repoInfoError } = useRepoInfo(owner, repo)
 
-  // Fetch the full directory tree using the modular hook
-  const { data: treeData, error: treeError } = useRepoTree(owner, repo)
+  // Fetch the full directory tree using the modular hook (TanStack useQuery)
+  const { data: treeData, isLoading: isLoadingTreeData, error: treeError } = useRepoTree(owner, repo)
 
-  // Fetch the active file's content using the modular hook
-  const { data: content, error: contentError, isValidating: isContentValidating } = useFileContent(owner, repo, filePath)
+  // Fetch the active file's content using the modular hook (TanStack useQuery)
+  const { data: content, error: contentError, isFetching: isContentFetching } = useFileContent(owner, repo, filePath)
 
-  const isLoadingTree = !treeData && !treeError
+  const isLoadingTree = isLoadingRepo || isLoadingTreeData
   const hasError = repoInfoError || treeError
 
   if (hasError) {
@@ -50,7 +50,7 @@ export function ReaderContent({ owner, repo }: { owner: string; repo: string }) 
             <div className="p-8 text-red-500 font-sans">
               Falha ao carregar o conteúdo do arquivo. Por favor, tente novamente. 😢
             </div>
-          ) : isContentValidating || content === undefined ? (
+          ) : isContentFetching || content === undefined ? (
             <ReaderSkeleton />
           ) : (
             <Reader 
