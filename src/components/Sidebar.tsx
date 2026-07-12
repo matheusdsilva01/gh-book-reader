@@ -6,16 +6,18 @@ import { ChevronRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { buildNestedTree } from "@/lib/tree-utils"
 import { TreeItem } from "./TreeItem"
-import { useMemo } from "react"
+import { useMemo, useCallback } from "react"
+import { SidebarSkeleton } from "./Skeletons"
 
 interface SidebarProps {
   tree: GitHubTreeItem[];
   selectedSha?: string;
   isOpen?: boolean;
   onClose?: () => void;
+  isLoading?: boolean;
 }
 
-export function Sidebar({ tree, selectedSha, isOpen, onClose }: SidebarProps) {
+export function Sidebar({ tree, selectedSha, isOpen, onClose, isLoading }: SidebarProps) {
   const router = useRouter()
 
   const nestedTree = useMemo(() => {
@@ -59,14 +61,18 @@ export function Sidebar({ tree, selectedSha, isOpen, onClose }: SidebarProps) {
           )}
         </div>
         <div className="flex-1 overflow-y-auto py-4">
-          {nestedTree.map((item) => (
-            <TreeItem 
-              key={item.sha} 
-              item={item} 
-              selectedSha={selectedSha} 
-              onFileClick={handleFileClick} 
-            />
-          ))}
+          {isLoading ? (
+            <SidebarSkeleton />
+          ) : (
+            nestedTree.map((item) => (
+              <TreeItem 
+                key={item.sha} 
+                item={item} 
+                selectedSha={selectedSha} 
+                onFileClick={handleFileClick} 
+              />
+            ))
+          )}
         </div>
       </div>
     </>

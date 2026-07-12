@@ -10,9 +10,10 @@ interface ReaderShellProps {
   tree: GitHubTreeItem[];
   selectedSha?: string;
   repoName: string;
+  isLoading?: boolean;
 }
 
-export function ReaderShell({ children, tree, selectedSha, repoName }: ReaderShellProps) {
+export function ReaderShell({ children, tree, selectedSha, repoName, isLoading }: ReaderShellProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
   const handleOpenSidebar = useCallback(() => {
@@ -30,6 +31,7 @@ export function ReaderShell({ children, tree, selectedSha, repoName }: ReaderShe
         selectedSha={selectedSha} 
         isOpen={isSidebarOpen} 
         onClose={handleCloseSidebar} 
+        isLoading={isLoading}
       />
       
       <div className="flex flex-1 flex-col min-w-0 relative">

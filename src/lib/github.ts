@@ -6,15 +6,11 @@ export async function fetchRepoInfo(
   owner: string,
   repo: string,
 ): Promise<GitHubRepo> {
-  const response = await fetch(`${GITHUB_API_BASE}/repos/${owner}/${repo}`, {
-    next: {
-      revalidate: 900, // Revalidate every 15 minutes
-    }
-  })
+  const response = await fetch(`${GITHUB_API_BASE}/repos/${owner}/${repo}`)
   if (!response.ok) throw new Error("Failed to fetch repo info", {
     cause: await response.text(),
   })
-  return response.json()
+  return await response.json()
 }
 
 export async function fetchTree(
@@ -23,39 +19,33 @@ export async function fetchTree(
   sha: string,
 ): Promise<GitHubTree> {
   const response = await fetch(
-    `${GITHUB_API_BASE}/repos/${owner}/${repo}/git/trees/${sha}?recursive=1`,
-    {
-      next: {
-        revalidate: 900, // Revalidate every 15 minutes
-      }
-    }
+    `${GITHUB_API_BASE}/repos/${owner}/${repo}/git/trees/${sha}?recursive=1`
   )
   if (!response.ok) throw new Error("Failed to fetch tree", {
-    cause: response,
+    cause: await response.text(),
   })
-  return response.json()
+  return await response.json()
 }
 
-export async function fetchBlobContent(
+
+export async function fetchFileContentByPath(
   owner: string,
   repo: string,
-  sha: string,
+  path: string,
 ): Promise<string> {
   const response = await fetch(
-    `${GITHUB_API_BASE}/repos/${owner}/${repo}/git/blobs/${sha}`,
+    `${GITHUB_API_BASE}/repos/${owner}/${repo}/contents/${path}`,
     {
-      next: {
-        revalidate: 900, // Revalidate every 15 minutes
-      },
       headers: {
-        "Accept": "application/vnd.github.v3.raw",
+        "Accept": "application/vnd.github.json",
       }
     },
   )
-  if (!response.ok) throw new Error("Failed to fetch blob content", {
+  const data = await response.json()
+  if (!response.ok) throw new Error("Failed to fetch file content by path", {
     cause: await response.text(),
   })
-  return response.text()
+  return Buffer.from(data.content, 'base64').toString() // Decode base64 content
 }
 
 export function parseGitHubUrl(
