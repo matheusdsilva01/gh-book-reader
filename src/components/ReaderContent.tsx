@@ -7,6 +7,8 @@ import { useRepoTree } from "@/api/github/get-tree"
 import { useFileContent } from "@/api/github/get-file-content"
 import dynamic from "next/dynamic"
 import { ReaderSkeleton } from "./Skeletons"
+import { useEffect } from "react"
+import { saveRecentBook } from "@/lib/recent-books"
 
 // Dynamically import Reader with ssr disabled to keep initial client bundle light
 const Reader = dynamic(() => import("./Reader").then(mod => mod.Reader), {
@@ -29,6 +31,20 @@ export function ReaderContent({ owner, repo }: { owner: string; repo: string }) 
 
   const isLoadingTree = isLoadingRepo || isLoadingTreeData
   const hasError = repoInfoError || treeError
+
+  useEffect(() => {
+    if (!repoInfo || !treeData) return
+
+    const loadedFile = filePath?.endsWith(".md") && content !== undefined && !contentError
+      ? filePath
+      : undefined
+
+    saveRecentBook({
+      owner: repoInfo.owner.login,
+      repo: repoInfo.name,
+      lastFile: loadedFile,
+    })
+  }, [content, contentError, filePath, repoInfo, treeData])
 
   if (hasError) {
     return (
