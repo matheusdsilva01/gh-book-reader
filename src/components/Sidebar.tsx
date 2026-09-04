@@ -6,7 +6,7 @@ import { ChevronRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { buildNestedTree } from "@/lib/tree-utils"
 import { TreeItem } from "./TreeItem"
-import { useMemo, useCallback } from "react"
+import { useMemo } from "react"
 import { SidebarSkeleton } from "./Skeletons"
 
 interface SidebarProps {
