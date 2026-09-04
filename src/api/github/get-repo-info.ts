@@ -16,6 +16,5 @@ export function useRepoInfo(owner: string, repo: string) {
     queryKey: ["repoInfo", owner, repo],
     queryFn: () => fetchRepoInfo(owner, repo),
     enabled: !!owner && !!repo,
-    staleTime: 60 * 60 * 1000, // 1 hour TTL
   })
 }

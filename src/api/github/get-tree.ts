@@ -16,6 +16,5 @@ export function useRepoTree(owner: string, repo: string) {
     queryKey: ["tree", owner, repo],
     queryFn: () => fetchTree(owner, repo, "HEAD"),
     enabled: !!owner && !!repo,
-    staleTime: 30 * 60 * 1000, // 30 minutes TTL
   })
 }

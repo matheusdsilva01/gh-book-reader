@@ -19,6 +19,5 @@ export function useFileContent(owner: string, repo: string, filePath?: string) {
     queryKey: ["content", owner, repo, filePath],
     queryFn: () => fetchFileContentByPath(owner, repo, filePath!),
     enabled: !!owner && !!repo && !!filePath,
-    staleTime: 5 * 60 * 1000, // 5 minutes TTL
   })
 }
