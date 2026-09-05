@@ -1,6 +1,6 @@
-# Project Overview
+# Reader.md
 
-`gh-book-reader` is a web application that allows users to read books hosted as Markdown files on GitHub. Users can enter a repository URL, navigate its file tree, and read `.md` files directly in the browser.
+`Reader.md` is a web application for reading Markdown files from public GitHub repositories in a focused interface. Users can enter a repository URL, navigate its file tree, resume recently opened repositories, and read `.md` files directly in the browser.
 
 ## MVP Flow
 
@@ -8,7 +8,7 @@
 2. **File Navigation:** Once a repo is loaded, a sidebar displays the repository's file tree.
    - Only `.md` files are interactive.
    - The navigation uses the GitHub Tree API.
-3. **Reading Experience:** Clicking a `.md` file fetches its content via the GitHub Blob API and displays it in the main content area.
+3. **Reading Experience:** Clicking a `.md` file fetches its raw content via the GitHub Contents API and displays it in the main content area.
 
 ## Tech Stack
 
@@ -17,13 +17,14 @@
 - **Language:** [TypeScript](https://www.typescriptlang.org/)
 - **Styling:** [Tailwind CSS 4](https://tailwindcss.com/)
 - **API Integration:** [GitHub REST API](https://docs.github.com/en/rest)
-- **Markdown Rendering:** (To be decided - likely `react-markdown`)
+- **Markdown Rendering:** [`react-markdown`](https://github.com/remarkjs/react-markdown)
 
 ## Architecture
 
 - `src/app/`: Contains the application's routes and layouts.
 - `src/components/`: Reusable UI components (Sidebar, Reader, RepoInput).
-- `src/lib/`: API client and utility functions for interacting with GitHub.
+- `src/api/github/`: TanStack Query hooks and functions for interacting with the GitHub API.
+- `src/lib/`: Domain logic and shared utilities.
 - `src/types/`: TypeScript definitions for GitHub API responses and application state.
 
 # Building and Running
@@ -31,7 +32,7 @@
 ## Prerequisites
 
 - Node.js (Version recommended by Next.js 16)
-- npm, yarn, pnpm, or bun
+- npm
 
 ## Commands
 
@@ -53,8 +54,8 @@
 
 - Routes: Use `page.tsx` within folders under `src/app/`.
 - Layouts: Use `layout.tsx` for shared UI across routes.
-- Components: Use PascalCase for component files (e.g., `BookCard.tsx`).
-- Utilities/Hooks: Use camelCase (e.g., `useBookData.ts`).
+- Components: Use PascalCase for component files (e.g., `RecentRepositories.tsx`).
+- Utilities/Hooks: Use camelCase (e.g., `useRecentRepositories.ts`).
 
 ## Testing
 

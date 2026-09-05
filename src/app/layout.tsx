@@ -19,13 +19,13 @@ const crimsonPro = Crimson_Pro({
 })
 
 export const metadata: Metadata = {
-  title: "GitHub Book Reader",
-  description: "Um simples leitor de livros baseado em repositórios do GitHub, construído com Next.js e TypeScript.",
-  applicationName: "GitHub Book Reader",
+  title: "Reader.md",
+  description: "Uma experiência de leitura focada para arquivos Markdown em repositórios públicos do GitHub.",
+  applicationName: "Reader.md",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "GitHub Book Reader",
+    title: "Reader.md",
   },
 }
 

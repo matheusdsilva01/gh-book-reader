@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation"
 import { RepoInput } from "@/components/RepoInput"
 import { parseGitHubUrl } from "@/lib/github"
 import { useState } from "react"
-import { RecentBooks } from "@/components/RecentBooks"
+import { RecentRepositories } from "@/components/RecentRepositories"
 
 export default function Home() {
   const router = useRouter()
@@ -25,10 +25,10 @@ export default function Home() {
         <div className="mx-auto w-full max-w-xl text-center">
           <div className="mb-10 md:mb-16">
             <h1 className="mb-6 font-serif text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight text-foreground leading-[1.1]">
-              GitHub Book Reader
+              Reader.md
             </h1>
             <p className="font-sans text-base md:text-lg text-zinc-500 leading-relaxed max-w-md mx-auto px-4 md:px-0">
-              Transforme os livros do Github em uma experiência de leitura bonita.
+              Leia arquivos Markdown de repositórios públicos do GitHub em uma experiência de leitura focada.
             </p>
           </div>
           <div className="bg-sidebar-bg p-1.5 md:p-2 rounded-full border border-sidebar-border shadow-sm mb-8 transition-all focus-within:ring-4 focus-within:ring-accent/5">
@@ -41,7 +41,7 @@ export default function Home() {
           )}
         </div>
 
-        <RecentBooks />
+        <RecentRepositories />
       </main>
       <footer className="pb-8 text-center text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-zinc-300">
         Feito por <a href="https://github.com/matheusdsilva01" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">github.com/matheusdsilva01</a>

@@ -8,7 +8,7 @@ import { useFileContent } from "@/api/github/get-file-content"
 import dynamic from "next/dynamic"
 import { ReaderSkeleton } from "./Skeletons"
 import { useEffect } from "react"
-import { saveRecentBook } from "@/lib/recent-books-store"
+import { saveRecentRepository } from "@/lib/recent-repositories-store"
 
 // Dynamically import Reader with ssr disabled to keep initial client bundle light
 const Reader = dynamic(() => import("./Reader").then(mod => mod.Reader), {
@@ -39,7 +39,7 @@ export function ReaderContent({ owner, repo }: { owner: string; repo: string }) 
       ? filePath
       : undefined
 
-    saveRecentBook({
+    saveRecentRepository({
       owner: repoInfo.owner.login,
       repo: repoInfo.name,
       lastFile: loadedFile,
@@ -79,7 +79,7 @@ export function ReaderContent({ owner, repo }: { owner: string; repo: string }) 
           )
         ) : (
           <div className="flex flex-1 items-center justify-center text-zinc-400 bg-background text-sm font-medium tracking-wide font-sans">
-            Selecione um arquivo no menu lateral para começar a leitura. 📚📂
+            Selecione um arquivo no menu lateral para começar a leitura.
           </div>
         )}
       </main>

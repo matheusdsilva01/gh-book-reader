@@ -3,16 +3,16 @@ import type { MetadataRoute } from "next"
 export default function manifest(): MetadataRoute.Manifest {
   return {
     id: "/",
-    name: "GitHub Book Reader",
-    short_name: "GH Book Reader",
-    description: "Transforme livros publicados no GitHub em uma experiência de leitura focada.",
+    name: "Reader.md",
+    short_name: "Reader.md",
+    description: "Leia arquivos Markdown de repositórios públicos do GitHub em uma experiência focada.",
     lang: "pt-BR",
     start_url: "/",
     scope: "/",
     display: "standalone",
     background_color: "#fdfcfb",
     theme_color: "#fdfcfb",
-    categories: ["books", "education"],
+    categories: ["productivity", "utilities"],
     icons: [
       {
         src: "/icons/icon-192x192.png",
