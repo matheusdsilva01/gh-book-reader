@@ -8,7 +8,7 @@ import { useFileContent } from "@/api/github/get-file-content"
 import dynamic from "next/dynamic"
 import { ReaderSkeleton } from "./Skeletons"
 import { useEffect } from "react"
-import { saveRecentBook } from "@/lib/recent-books"
+import { saveRecentBook } from "@/lib/recent-books-store"
 
 // Dynamically import Reader with ssr disabled to keep initial client bundle light
 const Reader = dynamic(() => import("./Reader").then(mod => mod.Reader), {

@@ -2,15 +2,12 @@
 
 import Link from "next/link"
 import { BookOpen, Trash2 } from "lucide-react"
-import { useSyncExternalStore } from "react"
 import {
   clearRecentBooks,
-  getRecentBookHref,
-  getRecentBooks,
-  getRecentBooksServerSnapshot,
   removeRecentBook,
-  subscribeToRecentBooks,
-} from "@/lib/recent-books"
+} from "@/lib/recent-books-store"
+import { getRecentBookHref } from "@/lib/recent-books"
+import { useRecentBooks } from "@/hooks/useRecentBooks"
 
 const dateFormatter = new Intl.DateTimeFormat("pt-BR", {
   day: "2-digit",
@@ -18,11 +15,7 @@ const dateFormatter = new Intl.DateTimeFormat("pt-BR", {
 })
 
 export function RecentBooks() {
-  const books = useSyncExternalStore(
-    subscribeToRecentBooks,
-    getRecentBooks,
-    getRecentBooksServerSnapshot,
-  )
+  const books = useRecentBooks()
 
   if (books.length === 0) return null
 
